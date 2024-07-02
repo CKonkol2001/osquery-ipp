@@ -109,7 +109,7 @@ jobs:
 
     steps:
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.EC2_GITHUB_RUNNER_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.EC2_GITHUB_RUNNER_AWS_SECRET_ACCESS_KEY }}
@@ -117,7 +117,7 @@ jobs:
 
       - name: Start aarch64 EC2 runner for a Release build
         id: start_ec2_runner-Release
-        uses: osquery/ec2-github-runner@v2.3.3
+        uses: osquery/ec2-github-runner@v2.3.6
         with:
           mode: start
           github-token: ${{ secrets.EC2_GITHUB_RUNNER_GH_PERSONAL_ACCESS_TOKEN }}
@@ -128,7 +128,7 @@ jobs:
 
       - name: Start aarch64 EC2 runner for a RelWithDebInfo build
         id: start_ec2_runner-RelWithDebInfo
-        uses: osquery/ec2-github-runner@v2.3.3
+        uses: osquery/ec2-github-runner@v2.3.6
         with:
           mode: start
           github-token: ${{ secrets.EC2_GITHUB_RUNNER_GH_PERSONAL_ACCESS_TOKEN }}
@@ -152,14 +152,14 @@ jobs:
 
     steps:
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.EC2_GITHUB_RUNNER_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.EC2_GITHUB_RUNNER_AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.EC2_GITHUB_RUNNER_AWS_REGION }}
 
       - name: Stop aarch64 EC2 runner for Release mode build
-        uses: osquery/ec2-github-runner@v2.3.3
+        uses: osquery/ec2-github-runner@v2.3.6
         with:
           mode: stop
           github-token: ${{ secrets.EC2_GITHUB_RUNNER_GH_PERSONAL_ACCESS_TOKEN }}
@@ -167,7 +167,7 @@ jobs:
           ec2-instance-id: ${{ needs.start_ec2_runners.outputs.ec2-instance-id-Release }}
 
       - name: Stop aarch64 EC2 runner for RelWithDebInfo mode build
-        uses: osquery/ec2-github-runner@v2.3.3
+        uses: osquery/ec2-github-runner@v2.3.6
         with:
           mode: stop
           github-token: ${{ secrets.EC2_GITHUB_RUNNER_GH_PERSONAL_ACCESS_TOKEN }}
@@ -282,7 +282,7 @@ jobs:
         git checkout ${{ env.PACKAGING_COMMIT }}
 
     - name: Update the cache (ccache)
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.build_paths.outputs.CCACHE }}
 
@@ -293,7 +293,7 @@ jobs:
           ccache_${{ matrix.cache_key }}_${{ matrix.build_type }}
 
     - name: Update the cache (git submodules)
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.build_paths.outputs.SOURCE }}/.git/modules
 
@@ -409,42 +409,42 @@ jobs:
 
     - name: Store the unsigned release package data artifact
       if: matrix.build_type == 'RelWithDebInfo'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: linux_unsigned_release_package_data_aarch64
         path: ${{ steps.packages.outputs.REL_UNSIGNED_RELEASE_PACKAGE_DATA_PATH }}
 
     - name: Store the unsigned release DEB artifact
       if: matrix.build_type == 'RelWithDebInfo'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: linux_unsigned_release_deb_aarch64
         path: ${{ steps.packages.outputs.REL_UNSIGNED_RELEASE_DEB_PATH }}
 
     - name: Store the unsigned debug DEB artifact
       if: matrix.build_type == 'RelWithDebInfo'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: linux_unsigned_debug_deb_aarch64
         path: ${{ steps.packages.outputs.REL_UNSIGNED_DEBUG_DEB_PATH }}
 
     - name: Store the unsigned release RPM artifact
       if: matrix.build_type == 'RelWithDebInfo'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: linux_unsigned_release_rpm_aarch64
         path: ${{ steps.packages.outputs.REL_UNSIGNED_RELEASE_RPM_PATH }}
 
     - name: Store the unsigned debug RPM artifact
       if: matrix.build_type == 'RelWithDebInfo'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: linux_unsigned_debug_rpm_aarch64
         path: ${{ steps.packages.outputs.REL_UNSIGNED_DEBUG_RPM_PATH }}
 
     - name: Store the unsigned release TGZ artifact
       if: matrix.build_type == 'RelWithDebInfo'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: linux_unsigned_release_tgz_aarch64
         path: ${{ steps.packages.outputs.REL_UNSIGNED_RELEASE_TGZ_PATH }}
